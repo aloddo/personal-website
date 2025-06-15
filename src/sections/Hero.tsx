@@ -38,7 +38,7 @@ const Hero: React.FC = () => {
         <img
           src={cloud2}
           alt="cloud-bottom-right"
-          className="absolute bottom-[5%] right-[5%] w-28 opacity-60 z-0"
+          className="absolute bottom-[8%] right-[5%] w-28 opacity-60 z-0"
           style={{ transform: `translateX(${scrollY * -0.1 - 10}px)` }}
         />
         <img
@@ -66,8 +66,8 @@ const Hero: React.FC = () => {
 
         <p className="max-w-2xl text-base md:text-lg text-gray-700 mb-14 px-4 z-10">
           Product and strategy leader with 15+ years of experience across travel, mobility, and fintech.
-          I’ve scaled global teams at Uber and Kiwi.com, co-founded a Y Combinator-backed startup,
-          and love building data-informed products that drive growth.
+          I’ve scaled international teams at Uber, Trade Republic, and Kiwi.com, and co-founded a Y Combinator-backed startup.
+          Really love building data-informed products that drive growth.
         </p>
 
         <div className="animate-bounce text-sm md:text-base text-blue-500 z-10">↓ Get to know me</div>
