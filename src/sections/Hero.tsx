@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import avatar from '../assets/avatar_hero.png'
 import cloud1 from '../assets/cloud1.png'
@@ -70,9 +71,11 @@ const Hero: React.FC = () => {
           Really love building data-informed products that drive growth.
         </p>
 
-        <div className="animate-bounce text-sm md:text-base text-blue-500 z-10">↓ Get to know me</div>
+        <a href="#current"
+          className="animate-bounce text-sm md:text-base text-blue-500 z-10">
+          ↓ Get to know me
+        </a>
       </section>
-      <div className="h-[200vh] bg-white" />
     </div>
   )
 }

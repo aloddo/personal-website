@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Hero from './sections/Hero'
+import Experience from './sections/Experience'
 
 function App() {
   const [scrollY, setScrollY] = useState(0)
@@ -15,8 +16,10 @@ function App() {
     <main>
       {/* Desktop Nav */}
       <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-30 hidden md:flex flex-row space-x-6 text-base text-gray-600">
+      <a href="#home" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Home</a>
         <a href="#experience" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Work Experience</a>
         <a href="#education" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Education</a>
+        <a href="#skills" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Skills</a>
         <a href="#passions" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Passions</a>
         <a href="#contact" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Get in touch</a>
       </div>
@@ -47,6 +50,7 @@ function App() {
       </div>
       <div className="relative overflow-hidden">
         <Hero scrollY={scrollY} />
+        <Experience />
         <div className="h-[200vh] bg-white" />
       </div>
       <footer className="sticky bottom-0 w-full text-center md:text-right text-sm text-gray-500 py-4 md:pr-6">
