@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Hero from './sections/Hero'
 import Experience from './sections/Experience'
 
 function App() {
   const [scrollY, setScrollY] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const slidesRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -12,11 +14,26 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    const container = slidesRef.current
+    if (!container) return
+
+    const onScroll = () => {
+      const scrollLeft = container.scrollLeft
+      const slideWidth = container.clientWidth
+      const index = Math.round(scrollLeft / slideWidth)
+      setActiveIndex(index)
+    }
+
+    container.addEventListener('scroll', onScroll)
+    return () => container.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
     <main>
       {/* Desktop Nav */}
       <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-30 hidden xl:flex flex-row space-x-6 text-base text-gray-600">
-      <a href="#home" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Home</a>
+        <a href="#home" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Home</a>
         <a href="#experience" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Work Experience</a>
         <a href="#education" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Education</a>
         <a href="#skills" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Skills</a>
@@ -48,12 +65,11 @@ function App() {
           </div>
         )}
       </div>
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden" ref={slidesRef}>
         <Hero scrollY={scrollY} />
-        <Experience />
-        <div className="h-[200vh] bg-white" />
+        <Experience scrollY={scrollY} activeIndex={activeIndex} />
       </div>
-      <footer className="sticky bottom-0 w-full text-center md:text-right text-sm text-gray-500 py-4 md:pr-6">
+      <footer className="w-full text-center md:text-right text-sm text-gray-500 py-4 md:pr-6">
         🏖️ vibe coded with ❤️ in 2025
       </footer>
     </main>

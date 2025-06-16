@@ -4,17 +4,54 @@ import kiwiLogo from '../assets/kiwi_logo.png'
 import windowKiwi from '../assets/window_kiwi_scene2.png'
 import gateKiwi from '../assets/gate_kiwi_scene.png'
 import deskKiwi from '../assets/desk_kiwi_scene.png'
+import cloud1 from '../assets/cloud1.png'
+import cloud2 from '../assets/cloud2.png'
+import airplane2 from '../assets/airplane2.png'
 
 
-const Experience: React.FC = () => {
+const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scrollY, activeIndex }) => {
+  const totalSlides = 6;
+  const currentSlideIndex = activeIndex ?? 0; // Use activeIndex as current slide
+
   return (
-    <section id="experience" className="w-full overflow-x-auto snap-x snap-mandatory flex scroll-smooth">
+    <section id="experience" className="w-full overflow-x-auto snap-x snap-mandatory flex scroll-smooth" style={{scrollSnapType: 'x mandatory', scrollSnapAlign: 'start'}}>
       <div
         id="current"
         className="min-w-full h-screen snap-start flex items-center justify-center bg-gradient-to-b from-sky-100 to-white text-gray-800 px-[2vw] relative overflow-hidden"
       >
+        {/* Clouds and airplane with parallax */}
+        <img
+          src={cloud1}
+          alt="Cloud 1"
+          className="absolute w-[20vw] sm:w-[10vw] xl:w-[10vw] z-0 transition-transform duration-[600ms] ease-out will-change-transform"
+          style={{
+            top: '0vw',
+            left: '10vw',
+            transform: `translateX(${-scrollY * 0.3}px)`
+          }}
+        />
+        <img
+          src={cloud2}
+          alt="Cloud 2"
+          className="absolute w-[18vw] sm:w-[9vw] xl:w-[9vw] z-0 transition-transform duration-[600ms] ease-out will-change-transform"
+          style={{
+            top: '4vw',
+            right: '-8vw',
+            transform: `translateX(${-scrollY * 0.4}px)`
+          }}
+        />
+        <img
+          src={airplane2}
+          alt="Airplane"
+          className="absolute w-[28vw] sm:w-[20vw] xl:w-[20vw] z-0 transition-transform duration-[600ms] ease-out will-change-transform"
+          style={{
+            bottom: '0vw',
+            right: '5vw',
+            transform: `translateY(${-scrollY * 0.75}px) translateX(${-scrollY * 0.6}px) rotate(10deg)`
+          }}
+        />
         {/* Window frames - top 75% */}
-        <div className="absolute top-0 left-0 w-full h-[67%] sm:h-[65%] xl:h-[65%] z-0 opacity-40">
+        <div className="absolute top-0 left-0 w-full h-[67%] sm:h-[65%] xl:h-[65%] z-10 opacity-40">
           <img
             src={windowKiwi}
             alt="Window frame"
@@ -126,6 +163,12 @@ const Experience: React.FC = () => {
           Worked across Asia and the US in roles spanning product, business development, and market entry. YC alum.
         </p>
         <button className="px-[2vw] py-[1vw] text-[1.2vw] bg-white/70 rounded shadow hover:bg-white transition">View Projects</button>
+      </div>
+
+      <div className="absolute bottom-[2vw] left-1/2 transform -translate-x-1/2 flex gap-[1vw] z-50">
+        {[...Array(totalSlides)].map((_, i) => (
+          <div key={i} className={`w-[1vw] h-[1vw] bg-gray-400 rounded-full ${i === currentSlideIndex ? 'opacity-100' : 'opacity-50'}`} />
+        ))}
       </div>
     </section>
   )

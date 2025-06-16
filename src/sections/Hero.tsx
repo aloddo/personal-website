@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import avatar from '../assets/avatar_hero.png'
 import cloud1 from '../assets/cloud1.png'
 import cloud2 from '../assets/cloud2.png'
 import airplane from '../assets/airplane2.png'
 
-const Hero: React.FC = () => {
-  const [scrollY, setScrollY] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+type HeroProps = { scrollY: number }
+const Hero: React.FC<HeroProps> = ({ scrollY }) => {
 
   return (
     <div className="relative overflow-hidden">
