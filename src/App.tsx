@@ -15,7 +15,7 @@ function App() {
   return (
     <main>
       {/* Desktop Nav */}
-      <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-30 hidden md:flex flex-row space-x-6 text-base text-gray-600">
+      <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-30 hidden xl:flex flex-row space-x-6 text-base text-gray-600">
       <a href="#home" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Home</a>
         <a href="#experience" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Work Experience</a>
         <a href="#education" className="transition-all duration-200 hover:text-gray-900 hover:tracking-wide">Education</a>
@@ -25,7 +25,7 @@ function App() {
       </div>
 
       {/* Mobile Hamburger */}
-      <div className="fixed top-6 right-6 z-30 md:hidden">
+      <div className="fixed top-6 right-6 z-30 xl:hidden">
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="text-gray-600 focus:outline-none"

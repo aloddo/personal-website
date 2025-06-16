@@ -48,15 +48,17 @@ const Experience: React.FC = () => {
           <img
             src={kiwiLogo}
             alt="Kiwi.com logo"
-            className="w-[25vw] sm:w-[10vw] xl:w-[12vw] mb-[4vw] md:mb-[1vw] landscape:mb-[1vw] mx-auto"
+            className="w-[25vw] sm:w-[10vw] xl:w-[12vw] mb-[4vw] sm:mb-[0.5vw] xl:mb-[1vw] mx-auto"
           />
-          <h2 className="text-[6vw] sm:text-[2.5vw] xl:text-[3vw] font-bold mb-[3vw] md:mb-[2vw] landscape:mb-[1.5vw]">Kiwi.com</h2>
+          <h2 className="text-[6vw] sm:text-[2.5vw] xl:text-[3vw] font-bold mb-[3vw] sm:mb-[0.4vw] xl:mb-[1vw]">Kiwi.com</h2>
+          <p className="text-[3vw] sm:text-[1.6vw] xl:text-[1.4vw] mb-[2vw] sm:mb-[0.5vw] xl:mb-[1vw] leading-[4vw] sm:leading-[2.5vw] xl:leading-[2vw] font-semibold">
+            Group Product Manager</p>
           <p className="
             text-[3vw] 
             sm:text-[1.5vw]
             xl:text-[1.2vw] 
             mb-[5vw] 
-            sm:mb-[1.5vw]
+            sm:mb-[1vw]
             xl:mb-[1.5vw]
             leading-[5vw] 
             sm:leading-[2.2vw] 
@@ -70,7 +72,7 @@ const Experience: React.FC = () => {
             sm:px-[1.5vw]
             xl:px-[1.4vw]
             py-[2.5vw]
-            sm:py-[1vw]
+            sm:py-[0.9vw]
             xl:py-[1vw]
             text-[3vw]
             sm:text-[1.3vw] 
