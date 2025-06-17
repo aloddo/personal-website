@@ -14,38 +14,38 @@ const Hero: React.FC<HeroProps> = ({ scrollY }) => {
         <img
           src={cloud1}
           alt="cloud1"
-          className="absolute top-[8vw] left-[5vw] w-[7vw] sm:w-32 xl:w-[18vw] opacity-80 z-0"
-          style={{ transform: `translateX(${scrollY * -0.3 - 20}px)` }}
+          className="absolute top-8 left-4 w-24 sm:w-32 xl:w-[18%] opacity-80 z-0"
+          style={{ transform: `translateX(${scrollY * -0.2 - 20}px)` }}
         />
         <img
           src={cloud2}
           alt="cloud2"
-          className="absolute top-[20%] right-[10%] w-[18vw] opacity-70 hidden sm:block xl:block z-0"
-          style={{ transform: `translateX(${scrollY * -0.15 - 10}px)` }}
+          className="absolute hidden sm:block top-12 sm:top-[18%] xl:top-[20%] right-4 sm:right-[10%] w-16 sm:w-32 xl:w-[18%] opacity-70 z-0"
+          style={{ transform: `translateX(${scrollY * -0.1 - 10}px)` }}
         />
         <img
           src={cloud2}
           alt="cloud-behind-avatar"
-          className="absolute top-[42vw] left-[25%] w-[9vw] opacity-40 hidden sm:block xl:block z-0"
-          style={{ transform: `translateX(${scrollY * -0.1 - 15}px)` }}
+          className="absolute hidden xl:block top-[42vh] left-[25%] w-[9%] opacity-40 z-0"
+          style={{ transform: `translateX(${scrollY * -0.05 - 15}px)` }}
         />
         <img
-          src={cloud2}
+          src={cloud1}
           alt="cloud-bottom-right"
-          className="absolute bottom-[8vw] right-[5vw] w-[7vw] opacity-60 z-0"
-          style={{ transform: `translateX(${scrollY * -0.1 - 10}px)` }}
+          className="absolute bottom-8 right-4 w-24 sm:hidden xl:block sm:w-32 xl:w-[18%] opacity-60 z-0"
+          style={{ transform: `translateX(${scrollY * -0.05 - 10}px)` }}
         />
         <img
           src={airplane}
           alt="airplane"
-          className="absolute top-[16vw] sm:top-[12%] right-[-8vw] w-[15vw] sm:w-[10.8vw] xl:w-[18vw] opacity-90 z-0"
-          style={{ transform: `translateX(${scrollY * -0.4 - 35}px) rotate(10deg)` }}
+          className="absolute top-[12%] sm:top-[18%] right-[-10%] sm:right-[-8%] w-[40%] sm:w-40 xl:w-[18%] opacity-90 z-0"
+          style={{ transform: `translateX(${scrollY * -0.8 - 35}px) rotate(10deg)` }}
         />
         <img
           src={airplane}
           alt="airplane-left"
-          className="absolute bottom-[12vw] left-[-5vw] sm:left-[2vw] w-[15vw] sm:w-[10.8vw] xl:w-[18vw] opacity-80 hidden sm:block xl:block z-0"
-          style={{ transform: `translateX(${scrollY * -0.25 - 25}px) rotate(10deg)` }}
+          className="absolute hidden sm:block bottom-12 left-[-8%] sm:left-[2%] w-24 sm:w-[10.8%] xl:w-[18%] opacity-80 z-0"
+          style={{ transform: `translateX(${scrollY * -0.5 - 25}px) rotate(10deg)` }}
         />
 
         {/* Foreground content */}
