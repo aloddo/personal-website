@@ -67,9 +67,9 @@ function App() {
       </div>
       <div className="relative overflow-hidden" ref={slidesRef}>
         <Hero scrollY={scrollY} />
-        <Experience scrollY={scrollY} activeIndex={activeIndex} />
+        <Experience activeIndex={activeIndex} />
       </div>
-      <footer className="fixed bottom-0 left-0 w-full text-center sm:text-right xl:text-right text-sm sm:text-xs xl:text-sm text-gray-500 py-4 sm:pr-6 xl:pr-6 z-0">
+      <footer className="fixed bottom-0 left-0 w-full text-center sm:text-right xl:text-right text-sm sm:text-xs xl:text-sm text-gray-500 py-4 sm:pr-6 xl:pr-6 z-100">
         🏖️ vibe coded with ❤️ in 2025
       </footer>
     </main>

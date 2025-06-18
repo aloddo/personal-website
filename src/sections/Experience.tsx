@@ -18,6 +18,85 @@ import uberCar from '../assets/uber_car.png'
 import uberLogo from '../assets/uber_logo.png'
 import airplane1 from '../assets/airplane1.png'
 
+// Hook: tracks both horizontal and vertical scroll
+function useScrollPosition(ref: React.RefObject<HTMLDivElement>) {
+  const [pos, setPos] = useState({ scrollX: 0, scrollY: 0 });
+  useEffect(() => {
+    const handler = () => {
+      setPos({
+        scrollX: ref.current?.scrollLeft || 0,
+        scrollY: window.scrollY,
+      });
+    };
+    window.addEventListener('scroll', handler);
+    ref.current?.addEventListener('scroll', handler);
+    return () => {
+      window.removeEventListener('scroll', handler);
+      ref.current?.removeEventListener('scroll', handler);
+    };
+  }, [ref]);
+  return pos;
+}
+
+// Parallax wrapper using per-layer coefficients
+type ParallaxConfig = { xVert: number; xHorz: number; yVert: number; yHorz: number };
+const SLIDE_PARALLAX: Record<number, Record<string, ParallaxConfig>> = {
+  0: {
+    cloud1:    { xVert:-0.07, xHorz:-0.11, yVert:0,    yHorz:0    },
+    cloud2:    { xVert:-0.03, xHorz:-0.03, yVert:0,    yHorz:0    },
+    airplane2: { xVert:-0.75, xHorz:-0.6,  yVert:-0.6, yHorz:-0.6 },
+  },
+  1: {
+    cloud2:    { xVert: -0.03, xHorz: -0.03, yVert: 0,    yHorz: 0    },
+    cloud1:    { xVert: -0.05, xHorz: -0.05, yVert: 0,    yHorz: 0    },
+    airplane1: { xVert: -0.5,  xHorz:  0.2,  yVert: -0.4, yHorz: 0.2 },
+    carUber1:  { xVert: -0.25,  xHorz: -0.25,  yVert:  0,   yHorz: 0   },
+    carUber2:  { xVert:  0.8,  xHorz:  0.8,  yVert:  0,   yHorz: 0   },
+    uberCar:   { xVert:  0.05, xHorz:  0.05, yVert:  0,   yHorz: 0   },
+    signUber:  { xVert:  0,    xHorz: 0.01 , yVert:  0,   yHorz: 0   },
+  },
+};
+
+function Parallax({
+  slideIndex,
+  layerKey,
+  containerRef,
+  isMobilePortrait,
+  className,
+  style,
+  children,
+}: React.PropsWithChildren<{
+  slideIndex: number;
+  layerKey: string;
+  containerRef: React.RefObject<HTMLDivElement>;
+  isMobilePortrait?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+}>) {
+  const { scrollX, scrollY } = useScrollPosition(containerRef);
+  let cfg = SLIDE_PARALLAX[slideIndex]?.[layerKey] || { xVert:0,xHorz:0,yVert:0,yHorz:0 };
+  if (slideIndex === 0 && layerKey === 'airplane2' && isMobilePortrait) {
+    // steeper vertical movement on portrait
+    cfg = { xVert: -0.6, xHorz: -0.4, yVert: -0.9, yHorz: 0 };
+  }
+  const x = scrollY * cfg.xVert + scrollX * cfg.xHorz;
+  const y = scrollY * cfg.yVert + scrollX * cfg.yHorz;
+  // build transform string, adding rotation for Kiwi airplane
+  let transformStr = `translateX(${x}px) translateY(${y}px)`;
+  if (slideIndex === 0 && layerKey === 'airplane2' || slideIndex === 1 && layerKey === 'airplane1') {
+    transformStr += ' rotate(10deg)';
+  }
+  return (
+    <div
+      className={`${className} transition-transform duration-500 ease-out will-change-transform`}
+      style={{ transform: transformStr, ...style }}
+    >
+      {children}
+    </div>
+  );
+}
+
+
 
 const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scrollY, activeIndex }) => {
   const totalSlides = 6;
@@ -34,6 +113,8 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
 
   // ref for horizontal scroll container
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // no need to extract scroll here; Parallax does it per layer
 
   const [activeDot, setActiveDot] = useState(currentSlideIndex);
   const [scrollX, setScrollX] = useState(0);
@@ -70,43 +151,35 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
         className="min-w-full h-screen snap-start flex items-center justify-center bg-gradient-to-b from-sky-100 to-white text-gray-800 px-[2%] relative overflow-hidden"
       >
         {/* Clouds and airplane with parallax */}
-        <img
-          src={cloud1}
-          alt="Cloud 1"
-          className="absolute w-[20%] sm:w-[10%] xl:w-[10%] z-10 transition-transform duration-[600ms] ease-out will-change-transform"
-          style={{
-            top: '0%',
-            left: '10%',
-            transform: `translateX(${-scrollY * 0.03 - scrollX * 0.03}px)`
-          }}
-        />
-        <img
-          src={cloud2}
-          alt="Cloud 2"
-          className="absolute w-[18%] sm:w-[9%] xl:w-[9%] z-10 transition-transform duration-[600ms] ease-out will-change-transform"
-          style={{
-            top: '4%',
-            right: '-8%',
-            transform: `translateX(${-scrollY * 0.04 - scrollX * 0.04}px)`
-          }}
-        />
-        <img
-          src={airplane2}
-          alt="Airplane"
-          className="absolute w-[28%] sm:w-[20%] xl:w-[20%] z-10 transition-transform duration-[600ms] ease-out will-change-transform"
-          style={{
-            bottom: '0%',
-            right: '5%',
-            transform: `translateY(${
-              isMobilePortrait
-                ? -scrollY * 0.8
-                : -scrollY * 0.75}px) translateX(${
-              isMobilePortrait
-                ? window.innerWidth * 0.65 - scrollY * 0.6 - scrollX * 0.6
-                : -scrollY * 0.6 - scrollX * 0.6
-            }px) rotate(10deg)`
-          }}
-        />
+        <Parallax
+          slideIndex={0}
+          layerKey="cloud1"
+          containerRef={containerRef}
+          className="absolute w-[20%] sm:w-[10%] xl:w-[10%] z-10"
+          style={{ top: '0%', left: '10%' }}
+        >
+          <img src={cloud1} alt="Cloud 1" className="w-full h-auto" />
+        </Parallax>
+        <Parallax
+          slideIndex={0}
+          layerKey="cloud2"
+          containerRef={containerRef}
+          isMobilePortrait={isMobilePortrait}
+          className="absolute w-[28%] sm:w-[9%] xl:w-[9%] z-10"
+          style={{ top: isMobilePortrait ?'23%':'4%', right: isMobilePortrait ? '-25%' : '-8%' }}
+        >
+          <img src={cloud2} alt="Cloud 2" className="w-full h-auto" />
+        </Parallax>
+        <Parallax
+          slideIndex={0}
+          layerKey="airplane2"
+          containerRef={containerRef}
+          isMobilePortrait={isMobilePortrait}
+          className="absolute w-[28%] sm:w-[20%] xl:w-[20%] z-10"
+          style={{ bottom: isMobilePortrait ? '-10%' : '15%', right: isMobilePortrait ? '-95%' : '0%' }}
+        >
+          <img src={airplane2} alt="Airplane" className="w-full h-auto" />
+        </Parallax>
         {/* Window frames - top 75% */}
         <div className="absolute top-0 left-0 w-full h-[67%] sm:h-[65%] xl:h-[65%] z-10 opacity-40">
           <img
@@ -160,79 +233,94 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
 
       <div className="min-w-full h-screen snap-start flex items-center justify-center bg-gradient-to-b from-sky-100 to-white text-gray-800 px-[2%] relative overflow-hidden">
         {/* Clouds */}
-        <img
-          src={cloud2}
-          alt="Cloud 2"
-          className="absolute w-[9.7%] z-0 transition-transform duration-500 ease-out will-change-transform"
-          style={{
-            top: '3%',
-            left: '-1.5%',
-            transform: `translateX(${-scrollY * 0.03 - scrollX * 0.05}px)`
-          }}
-        />
-        <img
-          src={cloud1}
-          alt="Cloud 1"
-          className="absolute w-[12%] z-0 transition-transform duration-500 ease-out will-change-transform"
-          style={{
-            top: '5%',
-            right: '15%',
-            transform: `translateX(${-scrollY * 0.04 - scrollX * 0.06}px)`
-          }}
-        />
+        <Parallax
+          slideIndex={1}
+          layerKey="cloud2"
+          containerRef={containerRef}
+          className={`absolute ${isMobilePortrait ? 'w-[28%]' : 'w-[9.1%]'} z-0`}
+          style={{ top: isMobilePortrait ? '23%' : '4%', left: isMobilePortrait ? '-5%' : '-1%' }}
+        >
+          <img src={cloud2} alt="Cloud 2" className="w-full h-auto" />
+        </Parallax>
+        <Parallax
+          slideIndex={1}
+          layerKey="cloud1"
+          containerRef={containerRef}
+          className={`absolute ${isMobilePortrait ? 'w-[18%]' : 'w-[8%]'} z-0`}
+          style={{ top: isMobilePortrait ? '7%' : '3%', right: isMobilePortrait ? '-10%' : '5%' }}
+        >
+          <img src={cloud1} alt="Cloud 1" className="w-full h-auto" />
+        </Parallax>
         {/* Airplane */}
-        <img
-          src={airplane1}
-          alt="Airplane"
-          className="absolute w-[12%] z-10 transition-transform duration-500 ease-out will-change-transform"
-          style={{
-            top: '8%',
-            right: '20%',
-            transform: `translateY(${-scrollY * 0.1}px) translateX(${-scrollY * 0.07 - scrollX * 0.1}px) rotate(10deg)`
-          }}
-        />
+        <Parallax
+          slideIndex={1}
+          layerKey="airplane1"
+          containerRef={containerRef}
+          className={`absolute ${isMobilePortrait ? 'w-[30%]' : 'w-[12%]'} z-10`}
+          style={{ top: isMobilePortrait ? '73%' : '12%', right: isMobilePortrait ? '-52%' : '30%' }}
+        >
+          <img src={airplane1} alt="Airplane" className="w-full h-auto" />
+        </Parallax>
         {/* Arrivals backdrop */}
         <img
           src={arrivalsUber}
           alt="Arrivals"
-          className="absolute top-[14%] right-0 w-[40%] h-[60%] z-20 object-cover"
+          className="absolute top-[49%] sm:top-[18.5%] xl:top-[18.5%] right-[10%] sm:right-[4%] xl:right-[4%] w-[80%] sm:w-[40%] xl:w-[40%] h-[20%] sm:h-[60%] xl:h-[60%] z-20 object-contain"
         />
         {/* Road */}
+        <div className="absolute bottom-[-16%] sm:bottom-[-3%] xl:bottom-[-3%] w-full h-[50%] sm:h-[40%] xl:h-[40%] z-30 overflow-hidden max-sm:block sm:hidden">
+          <img
+            src={roadUber}
+            alt="Road"
+            className="w-full h-full translate-y-[-25%]"
+          />
+        </div>
         <img
           src={roadUber}
           alt="Road"
-          className="absolute bottom-[-3%]  w-full h-[40%] z-30 "
+          className="hidden sm:block absolute bottom-[-3%] w-full h-[40%] z-30"
         />
         {/* Cars */}
-        <img
-          src={carUber1}
-          alt="Car 1"
-          className="absolute bottom-[15%] left-[18%] w-[20%] z-40"
-        />
-        <img
-          src={carUber2}
-          alt="Car 2"
-          className="absolute bottom-[32%] left-[9%] w-[10%] z-40"
-        />
-        <img
-          src={uberCar}
-          alt="Uber car"
-          className="absolute bottom-[9%] right-[32%] w-[30%] z-40"
-        />
+        <Parallax
+          slideIndex={1}
+          layerKey="carUber1"
+          containerRef={containerRef}
+          className="absolute bottom-[20%] sm:bottom-[14%] xl:bottom-[14%] left-[100%] sm:left-[55%] xl:left-[55%] w-[65%] sm:w-[20%] xl:w-[20%] z-50"
+        >
+          <img src={carUber1} alt="Car 1" className="w-full h-auto" />
+        </Parallax>
+        <Parallax
+          slideIndex={1}
+          layerKey="carUber2"
+          containerRef={containerRef}
+          className="max-sm:hidden absolute bottom-[32%] left-[-115%] w-[10%] z-40"
+        >
+          <img src={carUber2} alt="Car 2" className="w-full h-auto" />
+        </Parallax>
+        <Parallax
+          slideIndex={1}
+          layerKey="uberCar"
+          containerRef={containerRef}
+          className="absolute bottom-[11%] sm:bottom-[9%] xl:bottom-[9%] right-[40%] sm:right-[40%] xl:right-[40%] w-[80%] sm:w-[30%] xl:w-[30%] z-50"
+        >
+          <img src={uberCar} alt="Uber car" className="w-full h-auto" />
+        </Parallax>
         {/* Sign & avatar */}
-        <img
-          src={signUber}
-          alt="Pick Up Sign"
-          className="absolute bottom-[5%] right-[10%] w-[6%] z-50 transition-transform duration-500 ease-out will-change-transform"
-          style={{ transform: `translateX(${-scrollX * 0.01}px)` }}
-        />
+        <Parallax
+          slideIndex={1}
+          layerKey="signUber"
+          containerRef={containerRef}
+          className="absolute bottom-[5%] right-[7%] sm:right-[10%] xl:right-[10%] w-[12%] sm:w-[6%] xl:w-[6%] z-50"
+        >
+          <img src={signUber} alt="Pick Up Sign" className="w-full h-auto" />
+        </Parallax>
         <img
           src={avatarUber}
           alt="Avatar waiting"
-          className="absolute bottom-[2%] right-[20%] w-[11%] z-50"
+          className="absolute bottom-[4%] sm:bottom-[2%] xl:bottom-[2%] right-[10%] sm:right-[20%] xl:right-[20%] w-[20%] sm:w-[11%] xl:w-[11%] z-50"
         />
         {/* Text content */}
-        <div className="absolute top-[15%] left-[10%] w-full max-w-[45%] text-center z-60 px-4">
+        <div className="absolute top-[14%] left-[5%] sm:left-[10%] xl:left-[10%] w-full max-w-[90%] sm:max-w-[45%] xl:max-w-[45%] text-center z-60 px-4">
           <img
             src={uberLogo}
             alt="Uber logo"
