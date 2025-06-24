@@ -18,6 +18,13 @@ import uberCar from '../assets/uber_car.png'
 import uberLogo from '../assets/uber_logo.png'
 import airplane1 from '../assets/airplane1.png'
 
+import roadTrade from '../assets/road_trade_scene.png';
+import tickerFrameTrade from '../assets/tickerframe_trade_scene.png';
+import tickerTrade from '../assets/ticker_trade_scene.png';
+import buildingsTrade from '../assets/buildings_trade_scene.png';
+import tradeRepublicLogo from '../assets/trade_republic_logo.png';
+import avatarTrade from '../assets/avatar_trade_scene.png';
+
 // Hook: tracks both horizontal and vertical scroll
 function useScrollPosition(ref: React.RefObject<HTMLDivElement>) {
   const [pos, setPos] = useState({ scrollX: 0, scrollY: 0 });
@@ -39,7 +46,13 @@ function useScrollPosition(ref: React.RefObject<HTMLDivElement>) {
 }
 
 // Parallax wrapper using per-layer coefficients
-type ParallaxConfig = { xVert: number; xHorz: number; yVert: number; yHorz: number };
+type ParallaxConfig = {
+  xVert: number;
+  xHorz: number;
+  yVert: number;
+  yHorz: number;
+  useSlideScroll?: boolean;
+};
 const SLIDE_PARALLAX: Record<number, Record<string, ParallaxConfig>> = {
   0: {
     cloud1:    { xVert:-0.07, xHorz:-0.11, yVert:0,    yHorz:0    },
@@ -54,6 +67,12 @@ const SLIDE_PARALLAX: Record<number, Record<string, ParallaxConfig>> = {
     carUber2:  { xVert:  0.8,  xHorz:  0.8,  yVert:  0,   yHorz: 0   },
     uberCar:   { xVert:  0.05, xHorz:  0.05, yVert:  0,   yHorz: 0   },
     signUber:  { xVert:  0,    xHorz: 0.01 , yVert:  0,   yHorz: 0   },
+  },
+  2: {
+    cloud1:    { xVert: -0.03, xHorz: -0.03, yVert: 0,    yHorz: 0    },
+    cloud2:    { xVert: -0.05, xHorz: -0.05, yVert: 0,    yHorz: 0    },
+    airplane1: { xVert:  0.5, xHorz:  0.2, yVert: -0.5, yHorz: -0.2 },
+    tickerTrade: { xVert: 0, xHorz: -0.15, yVert: 0, yHorz: 0, useSlideScroll: true },
   },
 };
 
@@ -79,12 +98,19 @@ function Parallax({
     // steeper vertical movement on portrait
     cfg = { xVert: -0.6, xHorz: -0.4, yVert: -0.9, yHorz: 0 };
   }
-  const x = scrollY * cfg.xVert + scrollX * cfg.xHorz;
-  const y = scrollY * cfg.yVert + scrollX * cfg.yHorz;
+  const width = containerRef.current?.clientWidth || 0;
+  const effectiveScrollX = cfg.useSlideScroll
+    ? scrollX - slideIndex * width
+    : scrollX;
+  const x = scrollY * cfg.xVert + effectiveScrollX * cfg.xHorz;
+  const y = scrollY * cfg.yVert + effectiveScrollX * cfg.yHorz;
   // build transform string, adding rotation for Kiwi airplane
   let transformStr = `translateX(${x}px) translateY(${y}px)`;
-  if (slideIndex === 0 && layerKey === 'airplane2' || slideIndex === 1 && layerKey === 'airplane1') {
-    transformStr += ' rotate(10deg)';
+  if (slideIndex === 0 && layerKey === 'airplane2' || slideIndex === 1 && layerKey === 'airplane1' ) {
+    transformStr += 'rotate(10deg)';
+  }
+  if (slideIndex === 2 && layerKey === 'airplane1') {
+    transformStr += ' rotate(-10deg)';
   }
   return (
     <div
@@ -231,7 +257,7 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
         </div>
       </div>
 
-      <div className="min-w-full h-screen snap-start flex items-center justify-center bg-gradient-to-b from-sky-100 to-white text-gray-800 px-[2%] relative overflow-hidden">
+      <div id="uber" className="min-w-full h-screen snap-start flex items-center justify-center bg-gradient-to-b from-sky-100 to-white text-gray-800 px-[2%] relative overflow-hidden">
         {/* Clouds */}
         <Parallax
           slideIndex={1}
@@ -326,7 +352,7 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
             alt="Uber logo"
             className="w-[25vw] sm:w-[10vw] xl:w-[12vw] mb-[4vw] sm:mb-[0.5vw] xl:mb-[1vw] mx-auto"
           />
-                    <h2 className="text-[6vw] sm:text-[2.5vw] xl:text-[3vw] font-bold mb-[3vw] sm:mb-[0.4vw] xl:mb-[1vw]">
+          <h2 className="text-[6vw] sm:text-[2.5vw] xl:text-[3vw] font-bold mb-[3vw] sm:mb-[0.4vw] xl:mb-[1vw]">
             Strategy & Planning Lead
           </h2>
           <p className="text-[3vw] sm:text-[1.6vw] xl:text-[1.4vw] mb-[2vw] sm:mb-[0.5vw] xl:mb-[1vw] leading-[4vw] sm:leading-[2.5vw] xl:leading-[2vw] font-semibold">
@@ -341,18 +367,98 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
         </div>
       </div>
 
-      <div className="min-w-full h-screen snap-start flex flex-col justify-center items-center bg-gradient-to-br from-green-100 to-green-300 text-gray-800 px-[2%]">
-        <h2 className="text-xl sm:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 xl:mb-8">Trade Republic</h2>
-        <p className="text-sm sm:text-base xl:text-lg leading-relaxed mb-4 sm:mb-6 xl:mb-8">Head of Strategy (1 year)</p>
-        <p className="max-w-xl text-center text-xs sm:text-sm xl:text-base leading-relaxed mb-4 sm:mb-6 xl:mb-8">
-          Led strategy team during hypergrowth and restructuring; navigated product pivots and market shifts.
-        </p>
-        <button className="px-3 py-1 sm:px-4 sm:py-2 xl:px-6 xl:py-3 text-xs sm:text-sm xl:text-lg bg-white/70 rounded shadow hover:bg-white transition">View Projects</button>
+      <div id="trade-republic" className="min-w-full h-screen snap-start relative overflow-hidden bg-sky-100 text-gray-800">
+         {/* Clouds */}
+         <Parallax
+          slideIndex={2}
+          layerKey="cloud1"
+          containerRef={containerRef}
+          className={`absolute ${isMobilePortrait ? 'w-[28%]' : 'w-[9.1%]'} z-0`}
+          style={{ top: isMobilePortrait ? '23%' : '22%', left: isMobilePortrait ? '-5%' : '8%' }}
+        >
+          <img src={cloud1} alt="Cloud 1" className="w-full h-auto" />
+        </Parallax>
+        <Parallax
+          slideIndex={2}
+          layerKey="cloud2"
+          containerRef={containerRef}
+          className={`absolute ${isMobilePortrait ? 'w-[18%]' : 'w-[8%]'} z-0`}
+          style={{ top: isMobilePortrait ? '7%' : '3%', right: isMobilePortrait ? '-10%' : '-15%' }}
+        >
+          <img src={cloud2} alt="Cloud 2" className="w-full h-auto" />
+        </Parallax>
+
+        
+        {/* Buildings background */}
+        <img
+          src={buildingsTrade}
+          alt="Buildings"
+          className="absolute top-[16.3%] left-[-3%] w-[55%] h-[60%] z-30 object-fill"
+        />
+         {/* Airplane */}
+         <Parallax
+          slideIndex={2}
+          layerKey="airplane1"
+          containerRef={containerRef}
+          className={`absolute ${isMobilePortrait ? 'w-[30%]' : 'w-[15%]'}`}
+          style={{ top: isMobilePortrait ? '130%' : '135%', right: isMobilePortrait ? '-52%' : '130%' }}
+        >
+          <img src={airplane1} alt="Airplane" className="w-full h-auto" />
+        </Parallax>
+        {/* Avatar */}
+        <img
+          src={avatarTrade}
+          alt="Avatar holding phone"
+          className="absolute bottom-[5%] left-[5%] w-[20%] sm:w-[15%] z-50"
+        />
+        {/* Ticker frame + strip (masked with rounded corners) */}
+        <div className="absolute top-[60%] left-[29%] w-[9%] sm:w-[8%] xl:w-[9%] z-40">
+          {/* Frame always on top */}
+          <img
+            src={tickerFrameTrade}
+            alt="Ticker frame"
+            className="relative block w-full h-auto z-20"
+          />
+
+          {/* Masked area (same insets as earlier 7%/86% but applied on all sides) */}
+          <div className="absolute inset-[6%] overflow-hidden rounded-[0.1vw] z-10">
+            <Parallax
+              slideIndex={2}
+              layerKey="tickerTrade"
+              containerRef={containerRef}
+              className="absolute inset-0"
+            >
+              <img
+                src={tickerTrade}
+                alt="Ticker strip"
+                className="absolute inset-0 left-[-100%] w-[300%] h-full max-w-none object-fill"
+              />
+            </Parallax>
+          </div>
+        </div>
+        {/* Road */}
+        <img
+          src={roadTrade}
+          alt="Road"
+          className="hidden sm:block absolute bottom-[-1%] w-full h-[27%] z-20"
+        />
+        {/* Text content */}
+        <div className="absolute top-[15%] right-[5%] text-center px-4">
+          <img src={tradeRepublicLogo} alt="Trade Republic logo" className="w-[25vw] sm:w-[10vw] xl:w-[12vw] mb-[4vw] sm:mb-[0.5vw] xl:mb-[1vw] mx-auto" />
+          <h2 className="text-[6vw] sm:text-[2.5vw] xl:text-[3vw] font-bold mb-[3vw] sm:mb-[0.4vw] xl:mb-[1vw]">Strategy & Performance Lead</h2>
+          <p className="text-[3vw] sm:text-[1.6vw] xl:text-[1.4vw] mb-[2vw] sm:mb-[0.5vw] xl:mb-[1vw] leading-[4vw] sm:leading-[2.5vw] xl:leading-[2vw] font-semibold">2021-2022</p>
+          <p className="text-[3vw] sm:text-[1.5vw] xl:text-[1.2vw] mb-[5vw] sm:mb-[1vw] xl:mb-[1.5vw] leading-[5vw] sm:leading-[2.2vw] xl:leading-[2vw]">
+            Did a lot of things while learning a lot of jobs buldlt the cal lorem ipsum
+          </p>
+          <button className="px-[2.5vw] sm:px-[1.5vw] xl:px-[1.4vw] py-[2.5vw] sm:py-[0.9vw] xl:py-[1vw] text-[3vw] sm:text-[1.3vw] xl:text-[1.2vw] bg-white/70 rounded shadow hover:bg-white transition">
+            View Projects
+          </button>
+        </div>
       </div>
 
       <div className="min-w-full h-screen snap-start flex flex-col justify-center items-center bg-gradient-to-br from-pink-100 to-pink-300 text-gray-800 px-[2%]">
         <h2 className="text-xl sm:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 xl:mb-8">lastminute.com</h2>
-        <p className="text-sm sm:text-base xl:text-lg leading-relaxed mb-4 sm:mb-6 xl:mb-8">Product Manager, Flights</p>
+        <p className="text-sm sm:text-base xl:text-lg leading-relaxed mb-4 sm:mb-6 xl:mb-8">Product Manager, Flights</p> 
         <p className="max-w-xl text-center text-xs sm:text-sm xl:text-base leading-relaxed mb-4 sm:mb-6 xl:mb-8">
           Owned the core flight booking flow and checkout optimization. Improved conversion, design, and supplier integration.
         </p>
