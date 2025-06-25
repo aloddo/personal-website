@@ -252,7 +252,7 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
             Driving product vision, UX, and monetization for ancillaries.
           </p>
           <button className="px-[2.5vw] sm:px-[1.5vw] xl:px-[1.4vw] py-[2.5vw] sm:py-[0.9vw] xl:py-[1vw] text-[3vw] sm:text-[1.3vw] xl:text-[1.2vw] bg-white/70 rounded shadow hover:bg-white transition">
-            View Projects
+          Read More
           </button>
         </div>
       </div>
@@ -362,12 +362,12 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
             Led EMEA strategic planning, built region-wide financial models & forecasts, and drove automation programs cutting support costs three-fold.
           </p>
           <button className="px-[2.5vw] sm:px-[1.5vw] xl:px-[1.4vw] py-[2.5vw] sm:py-[0.9vw] xl:py-[1vw] text-[3vw] sm:text-[1.3vw] xl:text-[1.2vw] bg-white/70 rounded shadow hover:bg-white transition">
-           View Projects
+          Read More
           </button>
         </div>
       </div>
 
-      <div id="trade-republic" className="min-w-full h-screen snap-start relative overflow-hidden bg-sky-100 text-gray-800">
+      <div id="trade-republic" className="min-w-full h-screen snap-start relative overflow-hidden bg-gradient-to-b from-sky-100 to-white text-gray-800">
          {/* Clouds */}
          <Parallax
           slideIndex={2}
@@ -393,15 +393,17 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
         <img
           src={buildingsTrade}
           alt="Buildings"
-          className="absolute top-[16.3%] left-[-3%] w-[55%] h-[60%] z-30 object-fill"
+          className="absolute bottom-[28%] left-[48%] -translate-x-1/2 w-[120%] h-[35%] z-30 object-fill
+                sm:bottom-auto sm:top-[16.3%] sm:left-[-3%] sm:translate-x-0 sm:w-[55%] sm:h-[60%]
+                xl:bottom-auto xl:top-[16.3%] xl:left-[-3%] xl:translate-x-0 xl:w-[55%] xl:h-[60%]"
         />
          {/* Airplane */}
          <Parallax
           slideIndex={2}
           layerKey="airplane1"
           containerRef={containerRef}
-          className={`absolute ${isMobilePortrait ? 'w-[30%]' : 'w-[15%]'}`}
-          style={{ top: isMobilePortrait ? '130%' : '135%', right: isMobilePortrait ? '-52%' : '130%' }}
+          className={`absolute ${isMobilePortrait ? 'w-[20%]' : 'w-[15%]'} z-20`}
+          style={{ top: isMobilePortrait ? '105%' : '135%', right: isMobilePortrait ? '210%' : '130%' }}
         >
           <img src={airplane1} alt="Airplane" className="w-full h-auto" />
         </Parallax>
@@ -409,10 +411,10 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
         <img
           src={avatarTrade}
           alt="Avatar holding phone"
-          className="absolute bottom-[5%] left-[5%] w-[20%] sm:w-[15%] z-50"
+          className="absolute bottom-[5%] left-[5%] w-[40%] sm:w-[15%] xl:w-[15%] z-50"
         />
         {/* Ticker frame + strip (masked with rounded corners) */}
-        <div className="absolute top-[60%] left-[29%] w-[9%] sm:w-[8%] xl:w-[9%] z-40">
+        <div className="absolute top-[63%] sm:top-[60%] xl:top-[60%] left-[56%] sm:left-[29%] xl:left-[29%] w-[19%] sm:w-[9%] xl:w-[9%] z-40">
           {/* Frame always on top */}
           <img
             src={tickerFrameTrade}
@@ -436,22 +438,36 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
             </Parallax>
           </div>
         </div>
-        {/* Road */}
+        {/* Road – mobile portrait version */}
+        <div className="absolute bottom-[-16%] sm:bottom-[-1%] xl:bottom-[-1%] w-full h-[50%] sm:h-[27%] xl:h-[27%] z-20 overflow-hidden max-sm:block sm:hidden">
+          <img
+            src={roadTrade}
+            alt="Road"
+            className="w-full h-[60%] translate-y-[15%]"
+          />
+        </div>
         <img
           src={roadTrade}
           alt="Road"
           className="hidden sm:block absolute bottom-[-1%] w-full h-[27%] z-20"
         />
         {/* Text content */}
-        <div className="absolute top-[15%] right-[5%] text-center px-4">
+        <div
+          className="absolute top-[8%] sm:top-[14%] xl:top-[14%] left-1/2 -translate-x-1/2 w-full text-center px-4
+                sm:translate-x-0 sm:left-auto sm:right-[-4%] sm:w-auto
+                xl:translate-x-0 xl:left-auto xl:right-[4%] xl:w-auto"
+        >
           <img src={tradeRepublicLogo} alt="Trade Republic logo" className="w-[25vw] sm:w-[10vw] xl:w-[12vw] mb-[4vw] sm:mb-[0.5vw] xl:mb-[1vw] mx-auto" />
           <h2 className="text-[6vw] sm:text-[2.5vw] xl:text-[3vw] font-bold mb-[3vw] sm:mb-[0.4vw] xl:mb-[1vw]">Strategy & Performance Lead</h2>
           <p className="text-[3vw] sm:text-[1.6vw] xl:text-[1.4vw] mb-[2vw] sm:mb-[0.5vw] xl:mb-[1vw] leading-[4vw] sm:leading-[2.5vw] xl:leading-[2vw] font-semibold">2021-2022</p>
-          <p className="text-[3vw] sm:text-[1.5vw] xl:text-[1.2vw] mb-[5vw] sm:mb-[1vw] xl:mb-[1.5vw] leading-[5vw] sm:leading-[2.2vw] xl:leading-[2vw]">
-            Did a lot of things while learning a lot of jobs buldlt the cal lorem ipsum
-          </p>
-          <button className="px-[2.5vw] sm:px-[1.5vw] xl:px-[1.4vw] py-[2.5vw] sm:py-[0.9vw] xl:py-[1vw] text-[3vw] sm:text-[1.3vw] xl:text-[1.2vw] bg-white/70 rounded shadow hover:bg-white transition">
-            View Projects
+          <p className="text-[3vw] sm:text-[1.5vw] xl:text-[1.2vw] 
+              leading-[5vw] sm:leading-[2.2vw] xl:leading-[2vw] 
+              mb-[5vw] sm:mb-[1vw] xl:mb-[1.5vw]
+              sm:max-w-[90%] sm:mx-auto">
+              Led international growth team during launch in Italy, Spain &amp; Netherlands. <br />
+              Shaped referral economics, activation analytics, and debit card product discovery.
+</p>          <button className="px-[2.5vw] sm:px-[1.5vw] xl:px-[1.4vw] py-[2.5vw] sm:py-[0.9vw] xl:py-[1vw] text-[3vw] sm:text-[1.3vw] xl:text-[1.2vw] bg-white/70 rounded shadow hover:bg-white transition">
+            Read More
           </button>
         </div>
       </div>
