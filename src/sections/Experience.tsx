@@ -24,6 +24,11 @@ import tickerTrade from '../assets/ticker_trade_scene.png';
 import buildingsTrade from '../assets/buildings_trade_scene.png';
 import tradeRepublicLogo from '../assets/trade_republic_logo.png';
 import avatarTrade from '../assets/avatar_trade_scene.png';
+import logoLastminute from '../assets/lastminute_logo.png'
+import poolLastminute from '../assets/pool_lastminute_scene.png'
+import hotelLastminute from '../assets/hotel_lastminute_scene.png'
+import mountainsLastminute from '../assets/mountains_lastminute_scene.png'
+import avatarLastminute from '../assets/avatar_lastminute_scene.png'
 
 // Hook: tracks both horizontal and vertical scroll
 function useScrollPosition(ref: React.RefObject<HTMLDivElement>) {
@@ -285,7 +290,7 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
           className={`absolute ${isMobilePortrait ? 'w-[30%]' : 'w-[12%]'} z-10`}
           style={{ top: isMobilePortrait ? '73%' : '12%', right: isMobilePortrait ? '-52%' : '30%' }}
         >
-          <img src={airplane1} alt="Airplane" className="w-full h-auto" />
+        <img src={airplane1} alt="Airplane" className="w-full h-auto" />
         </Parallax>
         {/* Arrivals backdrop */}
         <img
@@ -460,10 +465,7 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
           <img src={tradeRepublicLogo} alt="Trade Republic logo" className="w-[25vw] sm:w-[10vw] xl:w-[12vw] mb-[4vw] sm:mb-[0.5vw] xl:mb-[1vw] mx-auto" />
           <h2 className="text-[6vw] sm:text-[2.5vw] xl:text-[3vw] font-bold mb-[3vw] sm:mb-[0.4vw] xl:mb-[1vw]">Strategy & Performance Lead</h2>
           <p className="text-[3vw] sm:text-[1.6vw] xl:text-[1.4vw] mb-[2vw] sm:mb-[0.5vw] xl:mb-[1vw] leading-[4vw] sm:leading-[2.5vw] xl:leading-[2vw] font-semibold">2021-2022</p>
-          <p className="text-[3vw] sm:text-[1.5vw] xl:text-[1.2vw] 
-              leading-[5vw] sm:leading-[2.2vw] xl:leading-[2vw] 
-              mb-[5vw] sm:mb-[1vw] xl:mb-[1.5vw]
-              sm:max-w-[90%] sm:mx-auto">
+          <p className="text-[3vw] sm:text-[1.5vw] xl:text-[1.2vw] leading-[5vw] sm:leading-[2.2vw] xl:leading-[2vw] mb-[5vw] sm:mb-[1vw] xl:mb-[1.5vw] sm:max-w-[90%] sm:mx-auto xl:max-w-full xl:mx-auto">
               Led international growth team during launch in Italy, Spain &amp; Netherlands. <br />
               Shaped referral economics, activation analytics, and debit card product discovery.
 </p>          <button className="px-[2.5vw] sm:px-[1.5vw] xl:px-[1.4vw] py-[2.5vw] sm:py-[0.9vw] xl:py-[1vw] text-[3vw] sm:text-[1.3vw] xl:text-[1.2vw] bg-white/70 rounded shadow hover:bg-white transition">
@@ -472,13 +474,54 @@ const Experience: React.FC<{ scrollY: number; activeIndex: number }> = ({ scroll
         </div>
       </div>
 
-      <div className="min-w-full h-screen snap-start flex flex-col justify-center items-center bg-gradient-to-br from-pink-100 to-pink-300 text-gray-800 px-[2%]">
-        <h2 className="text-xl sm:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 xl:mb-8">lastminute.com</h2>
-        <p className="text-sm sm:text-base xl:text-lg leading-relaxed mb-4 sm:mb-6 xl:mb-8">Product Manager, Flights</p> 
-        <p className="max-w-xl text-center text-xs sm:text-sm xl:text-base leading-relaxed mb-4 sm:mb-6 xl:mb-8">
-          Owned the core flight booking flow and checkout optimization. Improved conversion, design, and supplier integration.
-        </p>
-        <button className="px-3 py-1 sm:px-4 sm:py-2 xl:px-6 xl:py-3 text-xs sm:text-sm xl:text-lg bg-white/70 rounded shadow hover:bg-white transition">View Projects</button>
+      <div
+        id="lastminute"
+        className="min-w-full h-screen snap-start flex items-center justify-center bg-gradient-to-b from-sky-100 to-white text-gray-800 px-[2%] relative overflow-hidden"
+      >
+        {/* Scenic layers */}
+        <img
+          src={mountainsLastminute}
+          alt="Mountain backdrop"
+          className={`absolute  ${isMobilePortrait ? 'bottom-[14%] right-[-10%]  w-[60%]  h-[40%]' : 'bottom-[22%] right-[-10%] w-[60%] h-[40%]'} object-fill z-10`}
+        />
+        <img
+          src={hotelLastminute}
+          alt="Hotel resort"
+          className={`absolute  ${isMobilePortrait ? 'bottom-[29%] right-[27%]  w-[100%]' : 'bottom-[37%] right-[62%] w-[35%] sm:w-[43%] xl:w-[43%]'} z-20`}
+        />
+        <img
+          src={poolLastminute}
+          alt="Infinity pool"
+          className={`absolute bottom-[0%]  ${isMobilePortrait ? 'left-[0%] w-full h-[70%]' : 'left-[0%] w-full h-[90%]'} z-20`}
+        />
+        <img
+          src={avatarLastminute}
+          alt="Avatar relaxing"
+          className={`absolute  ${isMobilePortrait ? 'w-[48%] left-[49%]  bottom-[8%]' : 'w-[28%] sm:w-[20%] xl:w-[25%] left-1/3 -translate-x-1/3 sm:left-[40%] xl:left-[40%]  bottom-[13%]'} z-30`}
+        />
+
+        {/* Text block */}
+        <div className="absolute top-[13%] sm:top-[12%] xl:top-[12%] left-1/2 -translate-x-1/2 w-full text-center px-4
+                sm:translate-x-0 sm:left-auto sm:right-[12%] sm:w-auto
+                xl:translate-x-0 xl:left-auto xl:right-[10%] xl:w-auto">
+          <img
+            src={logoLastminute}
+            alt="lastminute.com logo"
+            className="w-[48vw] sm:w-[24vw] xl:w-[28vw] mb-[4vw] sm:mb-[0.5vw] xl:mb-[1vw] mx-auto"
+          />
+          <h2 className="text-[6vw] sm:text-[2.5vw] xl:text-[3vw] font-bold mb-[3vw] sm:mb-[0.4vw] xl:mb-[1vw]">
+            Product Manager, Ancillaries
+          </h2>
+          <p className="text-[3vw] sm:text-[1.6vw] xl:text-[1.4vw] mb-[2vw] sm:mb-[0.5vw] xl:mb-[1vw] leading-[4vw] sm:leading-[2.5vw] xl:leading-[2vw] font-semibold">
+            2018–2019
+          </p>
+          <p className="text-[3vw] sm:text-[1.5vw] xl:text-[1.2vw] mb-[5vw] sm:mb-[1vw] xl:mb-[1.5vw] leading-[5vw] sm:leading-[2.2vw] xl:leading-[2vw]">
+            Owned the core flight booking flow and checkout optimization. <br /> Improved conversion, design, and supplier integration.
+          </p>
+          <button className="px-[2.5vw] sm:px-[1.5vw] xl:px-[1.4vw] py-[2.5vw] sm:py-[0.9vw] xl:py-[1vw] text-[3vw] sm:text-[1.3vw] xl:text-[1.2vw] bg-white/70 rounded shadow hover:bg-white transition">
+            Read More
+          </button>
+        </div>
       </div>
 
       <div className="min-w-full h-screen snap-start flex flex-col justify-center items-center bg-gradient-to-br from-yellow-100 to-yellow-300 text-gray-800 px-[2%]">

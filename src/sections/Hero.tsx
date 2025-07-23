@@ -9,7 +9,7 @@ const Hero: React.FC<HeroProps> = ({ scrollY }) => {
 
   return (
     <div className="relative overflow-hidden">
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-sky-100 to-white px-4 pt-32 sm:pt-12 overflow-hidden">
+      <section id="home" className="relative min-h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-sky-100 to-white px-4 pt-32 sm:pt-12 overflow-hidden">
         {/* Background elements */}
         <img
           src={cloud1}
